@@ -1,0 +1,34 @@
+version: "3"
+services:
+  chat:
+    build:
+      context: .
+    ports:
+      - "8003:8002"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    restart: always
+    networks:
+      - chat
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: hero
+      POSTGRES_PASSWORD: hero
+      POSTGRES_DB: munchies
+
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    restart: always
+
+    networks:
+      - chat
+
+volumes:
+  postgres_data:
+
+networks:
+  chat:
+    external: false
